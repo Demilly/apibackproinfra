@@ -1,126 +1,80 @@
 package br.com.apiProInfraBack.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Table(name = "usuario")
+@Getter
+@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Usuario implements Serializable {
+public class Usuario implements Serializable{
 
 	private static final long serialVersionUID = 1937195872778249441L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cod_usuario", nullable = false)
 	private Long cod_usuario;
 
-	@NotEmpty
+	@NotBlank
+    @Size(max = 120)
 	private String primeiroNome;
 
-	@NotEmpty
+	@NotBlank
+    @Size(max = 120)
 	private String ultimoNome;
+	
+	@Column(name = "email", nullable = false, unique = true, length = 255)
+    @NotBlank
+    @Size(max = 255)
+    private String email;
 
+	
+	@Column(name = "cpf", nullable = false, unique = true, length = 20)
+    @NotBlank
+    @Size(max = 255)
 	private String cpf;
 
+	
+	@Column(name = "telefone", length = 20)
+    @Size(max = 20)
 	private String telefone;
 
-	@NotNull
-	private LocalDateTime dataCriacao;
 	
-	@NotNull
-	private LocalDateTime dataAtualizacao;
-
-	@NotNull
-	private Date data_nascimento;
-
-	public Usuario() {
-	}
-
-	public Usuario(Long cod_usuario, @NotEmpty String primeiroNome, @NotEmpty String ultimoNome, String cpf,
-			String telefone, LocalDateTime dataCriacao, @NotEmpty Date data_nascimento) {
-		super();
-		this.cod_usuario = cod_usuario;
-		this.primeiroNome = primeiroNome;
-		this.ultimoNome = ultimoNome;
-		this.cpf = cpf;
-		this.telefone = telefone;
-		this.dataCriacao = dataCriacao;
-		this.data_nascimento = data_nascimento;
-	}
-
-	public Long getCod_usuario() {
-		return cod_usuario;
-	}
-
-	public void setCod_usuario(Long cod_usuario) {
-		this.cod_usuario = cod_usuario;
-	}
-
-	public String getPrimeiroNome() {
-		return primeiroNome;
-	}
-
-	public void setPrimeiroNome(String primeiroNome) {
-		this.primeiroNome = primeiroNome;
-	}
-
-	public String getUltimoNome() {
-		return ultimoNome;
-	}
-
-	public void setUltimoNome(String ultimoNome) {
-		this.ultimoNome = ultimoNome;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-	public LocalDateTime getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(LocalDateTime dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
-	public Date getData_nascimento() {
-		return data_nascimento;
-	}
-
-	public void setData_nascimento(Date data_nascimento) {
-		this.data_nascimento = data_nascimento;
-	}
-
-	public LocalDateTime getDataAtualizacao() {
-		return dataAtualizacao;
-	}
-
-	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
-		this.dataAtualizacao = dataAtualizacao;
-	}
+	@Column(name="ultima_atualizacao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ultima_atualizacao;
 	
+	@Column(name="data_criacao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data_criacao;
+
+	
+	@Column(name = "data_nascimento", length = 11)
+    @Size(max = 11)
+	private String data_nascimento;
 
 }

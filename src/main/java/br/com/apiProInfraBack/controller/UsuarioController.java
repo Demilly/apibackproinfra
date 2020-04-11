@@ -43,16 +43,17 @@ public class UsuarioController {
 		if (usuario.isPresent())
 			return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
 		else
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@ApiOperation(value = "Insere um usuário")
 	@PostMapping("/usuario")
-	public Usuario Post(@Valid @RequestBody Usuario usuario)
+	public ResponseEntity<Usuario> Post(@Valid @RequestBody Usuario usuario)
     {
-        return usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);        
+        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
     }
-	
+
 
 	@ApiOperation(value = "Atualiza um usuário pelo cod_usuario")
 	@PutMapping("/usuario/{id}")
@@ -66,12 +67,11 @@ public class UsuarioController {
         	usuarioSalva.setData_nascimento(newUsuario.getData_nascimento());
         	usuarioSalva.setUltimoNome(newUsuario.getUltimoNome());
         	usuarioSalva.setTelefone(newUsuario.getTelefone());
-        	usuarioSalva.setDataAtualizacao(newUsuario.getDataAtualizacao());
             usuarioRepository.save(usuario);
             return new ResponseEntity<Usuario>(usuarioSalva, HttpStatus.OK);
         }
         else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 	
 	@ApiOperation(value = "Deleta um usuário pelo cod_usuario")
@@ -84,6 +84,6 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

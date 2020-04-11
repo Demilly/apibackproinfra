@@ -26,6 +26,6 @@ public class Chamado implements Serializable{
 	private Categoria categoria;
 	
 	private String descricaoChamado;
-	
+		
 	
 }
