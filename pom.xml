@@ -17,9 +17,13 @@
 	<description>Projeto API ProInfra</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+	  <java.version>1.8</java.version>
+	  <sonar.projectKey>apibackproinfra</sonar.projectKey>
+	  <sonar.organization>demilly</sonar.organization>
+	  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+	  <sonar.login>eef18a520a00b577e144f42d542aabc137aeeae5</sonar.login>
 	</properties>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
