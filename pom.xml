@@ -18,12 +18,10 @@
 
 	<properties>
 	  <java.version>1.8</java.version>
-	  <properties>
-	  <sonar.projectKey>apibackproinfra</sonar.projectKey>
-	  <sonar.organization>demilly</sonar.organization>
-	  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-	  <sonar.login>9a48c38a22aa7235947d172de0a62987ca14211a</sonar.login>
-	</properties>
+		<sonar.projectKey>apibackproinfra</sonar.projectKey>
+		  <sonar.organization>demilly</sonar.organization>
+		  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		  <sonar.login>88177fb88236e5ed1539348b01ade148acd124fc</sonar.login>
 	</properties>
 	
 	<dependencies>
