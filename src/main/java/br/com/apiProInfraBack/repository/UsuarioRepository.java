@@ -1,13 +1,16 @@
 package br.com.apiProInfraBack.repository;
 
-import br.com.apiProInfraBack.model.Usuario;
-
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
+import br.com.apiProInfraBack.model.Usuario;
+
+public interface UsuarioRepository extends CrudRepository<Usuario, Long>{
 
 	void save(Optional<Usuario> usuario);
+	
+	Usuario findByEmail(String email);
+	
 
 }

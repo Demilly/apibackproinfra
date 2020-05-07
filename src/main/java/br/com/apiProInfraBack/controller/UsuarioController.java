@@ -16,15 +16,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.apiProInfraBack.model.Usuario;
 import br.com.apiProInfraBack.repository.UsuarioRepository;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
+@ApiModel(value = "Cadastrar usuário")
 public class UsuarioController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -32,7 +35,7 @@ public class UsuarioController {
 	@ApiOperation(value = "Retorna uma lista de todos os usuários")
 	@GetMapping("/usuarios")
 	public List<Usuario> getUsuarios() {
-		return usuarioRepository.findAll();
+		return (List<Usuario>) usuarioRepository.findAll();
 	}
 	
 	
@@ -48,31 +51,34 @@ public class UsuarioController {
 	
 	@ApiOperation(value = "Insere um usuário")
 	@PostMapping("/usuario")
+	@ResponseBody
 	public ResponseEntity<Usuario> Post(@Valid @RequestBody Usuario usuario)
     {
-        usuarioRepository.save(usuario);        
-        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+		try {	
+
+			usuarioRepository.save(usuario);        
+	        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
+		}
     }
 
-
-	@ApiOperation(value = "Atualiza um usuário pelo cod_usuario")
+	@ApiOperation(value="Atualiza os dados do usuário pelo id")
 	@PutMapping("/usuario/{id}")
-	public ResponseEntity<Usuario> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Usuario newUsuario)
-    {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        if(usuario.isPresent()){
-        	Usuario usuarioSalva = usuario.get();
-        	usuarioSalva.setPrimeiroNome(newUsuario.getPrimeiroNome());
-        	usuarioSalva.setCpf(newUsuario.getCpf());
-        	usuarioSalva.setData_nascimento(newUsuario.getData_nascimento());
-        	usuarioSalva.setUltimoNome(newUsuario.getUltimoNome());
-        	usuarioSalva.setTelefone(newUsuario.getTelefone());
-            usuarioRepository.save(usuario);
-            return new ResponseEntity<Usuario>(usuarioSalva, HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+	public ResponseEntity<Object> updateStudent(@RequestBody Usuario usuario, @PathVariable long id) {
+
+		Optional<Usuario> usuarioOpitional = usuarioRepository.findById(id);
+
+		if (!usuarioOpitional.isPresent())
+			 return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		
+		usuario.setCod_usuario(id);
+		
+		usuarioRepository.save(usuario);
+
+        return new ResponseEntity<>(usuario, HttpStatus.OK);
+	}
 	
 	@ApiOperation(value = "Deleta um usuário pelo cod_usuario")
 	@DeleteMapping("/usuario/{id}")
