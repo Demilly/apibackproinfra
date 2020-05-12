@@ -1,5 +1,6 @@
 package br.com.apiProInfraBack.security;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,14 +22,23 @@ public class TokenAuthenticationService {
 	static final String TOKEN_PREFIX = "Bearer";
 	static final String HEADER_STRING = "Authorization";
 	
-	static void addAuthentication(HttpServletResponse response, String username) {
-		String JWT = Jwts.builder()
+	static String token = "";
+	
+	static void addAuthentication(HttpServletResponse response, String username) throws IOException {
+		 String JWT = Jwts.builder()
 				.setSubject(username)
-				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) 
 				.signWith(SignatureAlgorithm.HS512, SECRET)
 				.compact();
+		 
+		 token = JWT.toString().trim();
 		
-		response.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+	}
+	
+	static final String pegaToken() {
+		
+		return token;
+		
 	}
 	
 	static Authentication getAuthentication(HttpServletRequest request) {

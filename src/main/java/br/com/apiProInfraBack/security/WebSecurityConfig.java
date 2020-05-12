@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import br.com.apiProInfraBack.repository.ImplementsUserDetailsService;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
@@ -25,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable().authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/").permitAll()
 		.antMatchers(HttpMethod.GET, "/login").permitAll()
+		.antMatchers(HttpMethod.POST, "/api/usuario").permitAll()
 		.antMatchers(HttpMethod.GET, "/swagger-ui.html/**").permitAll()
 //		.antMatchers(HttpMethod.GET, "/api/usuarios").permitAll()
 		.antMatchers(HttpMethod.POST, "/usuario/{id}").hasRole("ADMIN")
@@ -35,11 +38,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		.and()
 		
-	// filtra requisições de login
-		.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
+//	 filtra requisições de login
+		.addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()),
                 UsernamePasswordAuthenticationFilter.class)
 		
-		// filtra outras requisições para verificar a presença do JWT no header
+//		 filtra outras requisições para verificar a presença do JWT no header
 		.addFilterBefore(new JWTAuthenticationFilter(),
                 UsernamePasswordAuthenticationFilter.class);
 		

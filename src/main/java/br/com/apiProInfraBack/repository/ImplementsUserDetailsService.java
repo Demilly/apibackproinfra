@@ -1,4 +1,4 @@
-package br.com.apiProInfraBack.security;
+package br.com.apiProInfraBack.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import br.com.apiProInfraBack.model.Usuario;
-import br.com.apiProInfraBack.repository.UsuarioRepository;
 
 @Repository
 public class ImplementsUserDetailsService implements UserDetailsService{

@@ -1,0 +1,8 @@
+br\com\apiProInfraBack\ProInfraBackApplication.class
+br\com\apiProInfraBack\controller\UsuarioController.class
+br\com\apiProInfraBack\configuration\ConfigurationCors.class
+br\com\apiProInfraBack\configuration\ConfiguracaoSwaggerConfiguration.class
+br\com\apiProInfraBack\model\Usuario.class
+br\com\apiProInfraBack\repository\UsuarioRepository.class
+br\com\apiProInfraBack\service\UsuarioService.class
+br\com\apiProInfraBack\ServletInitializer.class

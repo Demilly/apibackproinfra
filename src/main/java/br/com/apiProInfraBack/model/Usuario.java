@@ -1,16 +1,17 @@
 package br.com.apiProInfraBack.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "usuario")
 public class Usuario implements UserDetails, Serializable{
+//public class Usuario implements Serializable{
+
 
 	private static final long serialVersionUID = 1937195872778249441L;
 	
@@ -34,17 +37,17 @@ public class Usuario implements UserDetails, Serializable{
 	private Long cod_usuario;
 
 	@NotBlank
-    @Size(max = 120)
+    @Size(max = 200)
 	private String nomeCompleto;
 	
-	@Column(name = "email", nullable = false, unique = true, length = 120)
+	@Column(name = "email", nullable = false, unique = true, length = 200)
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 200)
     private String email;
 	
-	@Column(name = "senha", nullable = false, length = 120)
+	@Column(name = "senha", nullable = false, length = 200)
 	@NotBlank
-    @Size(max = 255)
+    @Size(max = 200)
 	private String senha;
 
 	
@@ -63,19 +66,22 @@ public class Usuario implements UserDetails, Serializable{
 	private String data_nascimento;
 
 	
-	@JsonIgnore
-	@Column(name = "ultima_atualizacao")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updateDate;
+//	@JsonIgnore
+//	@Column(name = "ultima_atualizacao")
+//	@Temporal(TemporalType.TIMESTAMP)
+//	private String updateDate;
 
+	@JsonIgnore
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+	private List<Chamado> chamado = new ArrayList();
 
 	public Usuario() {
 	}
 	
-	public Usuario(Long cod_usuario, @NotBlank @Size(max = 120) String nomeCompleto,
-			@NotBlank @Size(max = 20) String email, @Size(max = 20) String senha, @NotBlank @Size(max = 20) String cpf,
-			@Size(max = 15) String telefone, @Size(max = 11) String data_nascimento, Calendar creationDate,
-			Calendar updateDate) {
+	public Usuario(Long cod_usuario, @NotBlank @Size(max = 200) String nomeCompleto,
+			@NotBlank @Size(max = 200) String email, @NotBlank @Size(max = 200) String senha,
+			@NotBlank @Size(max = 20) String cpf, @Size(max = 15) String telefone,
+			@Size(max = 11) String data_nascimento, String updateDate, List<Chamado> chamado) {
 		super();
 		this.cod_usuario = cod_usuario;
 		this.nomeCompleto = nomeCompleto;
@@ -84,7 +90,11 @@ public class Usuario implements UserDetails, Serializable{
 		this.cpf = cpf;
 		this.telefone = telefone;
 		this.data_nascimento = data_nascimento;
+//		this.updateDate = updateDate;
+		this.chamado = chamado;
 	}
+
+
 
 	public Long getCod_usuario() {
 		return cod_usuario;
@@ -142,14 +152,22 @@ public class Usuario implements UserDetails, Serializable{
 		this.data_nascimento = data_nascimento;
 	}
 
-	public Date getUpdateDate() {
-		return updateDate;
+	
+//	public String getUpdateDate() {
+//		return updateDate;
+//	}
+//
+//	public void setUpdateDate(String date) {
+//		this.updateDate = date;
+//	}
+
+	public List<Chamado> getChamado() {
+		return chamado;
 	}
 
-	public void setUpdateDate(Date updateDate) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		this.updateDate = timestamp;
-	}
+	public void setChamado(List<Chamado> chamado) {
+		this.chamado = chamado;
+	}	
 	
 	@JsonIgnore
 	@Override

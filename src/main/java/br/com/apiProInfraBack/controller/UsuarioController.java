@@ -1,5 +1,7 @@
 package br.com.apiProInfraBack.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +32,9 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api")
 @ApiModel(value = "Cadastrar usuário")
 public class UsuarioController {
+	
+	BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
@@ -37,7 +43,7 @@ public class UsuarioController {
 	public List<Usuario> getUsuarios() {
 		return (List<Usuario>) usuarioRepository.findAll();
 	}
-	
+
 	
 	@ApiOperation(value = "Retorna usuário pelo cod_usuario")
 	@GetMapping("/usuario/{id}")
@@ -54,8 +60,9 @@ public class UsuarioController {
 	@ResponseBody
 	public ResponseEntity<Usuario> Post(@Valid @RequestBody Usuario usuario)
     {
-		try {	
-
+		try {		
+			
+			usuario.setSenha(pe.encode(usuario.getSenha()));
 			usuarioRepository.save(usuario);        
 	        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 			
@@ -71,7 +78,7 @@ public class UsuarioController {
 		Optional<Usuario> usuarioOpitional = usuarioRepository.findById(id);
 
 		if (!usuarioOpitional.isPresent())
-			 return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+			 return new ResponseEntity<>(HttpStatus.CONFLICT);
 		
 		usuario.setCod_usuario(id);
 		
