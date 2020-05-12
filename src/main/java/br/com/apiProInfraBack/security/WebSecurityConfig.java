@@ -9,22 +9,26 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import br.com.apiProInfraBack.repository.ImplementsUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
-
+	
 	@Autowired
-	private ImplementsUserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private JWTUtil jwtUtil;
+
+//	@Autowired
+//	private ImplementsUserDetailsService userDetailsService;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-		http.csrf().disable().authorizeRequests()
+		http.cors().and().csrf().disable().authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/").permitAll()
 		.antMatchers(HttpMethod.GET, "/login").permitAll()
 		.antMatchers(HttpMethod.POST, "/api/usuario").permitAll()
@@ -33,26 +37,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers(HttpMethod.POST, "/usuario/{id}").hasRole("ADMIN")
 		.antMatchers(HttpMethod.POST, "/cadastrarEvento").hasRole("ADMIN")
 		.anyRequest().authenticated()
+		
+		
 		.and().formLogin().permitAll()
 		.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 		
-		.and()
+		.and();
+		
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		
 //	 filtra requisições de login
-		.addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()),
-                UsernamePasswordAuthenticationFilter.class)
+//		.addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()),
+//                UsernamePasswordAuthenticationFilter.class)
 		
 //		 filtra outras requisições para verificar a presença do JWT no header
-		.addFilterBefore(new JWTAuthenticationFilter(),
-                UsernamePasswordAuthenticationFilter.class);
+//		.addFilterBefore(new JWTAuthenticationFilter(),
+//                UsernamePasswordAuthenticationFilter.class);
 		
 	}
 	
+//	@Override
+//	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+//		auth.userDetailsService(userDetailsService)
+//		.passwordEncoder(new BCryptPasswordEncoder());
+//	}
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-		auth.userDetailsService(userDetailsService)
-		.passwordEncoder(new BCryptPasswordEncoder());
-	}
+	auth.userDetailsService(userDetailsService)
+	.passwordEncoder(new BCryptPasswordEncoder());
+}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception{

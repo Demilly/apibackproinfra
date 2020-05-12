@@ -2,7 +2,6 @@ package br.com.apiProInfraBack.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,20 +12,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario implements UserDetails, Serializable{
-//public class Usuario implements Serializable{
+//public class Usuario implements UserDetails, Serializable{
+public class Usuario implements Serializable{
 
 
 	private static final long serialVersionUID = 1937195872778249441L;
@@ -169,53 +163,53 @@ public class Usuario implements UserDetails, Serializable{
 		this.chamado = chamado;
 	}	
 	
-	@JsonIgnore
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@JsonIgnore
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return this.senha;
-	}
-
-	@JsonIgnore
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return this.email;
-	}
-
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@JsonIgnore
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@JsonIgnore
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+//	@JsonIgnore
+//	@Override
+//	public Collection<? extends GrantedAuthority> getAuthorities() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@JsonIgnore
+//	@Override
+//	public String getPassword() {
+//		// TODO Auto-generated method stub
+//		return this.senha;
+//	}
+//
+//	@JsonIgnore
+//	@Override
+//	public String getUsername() {
+//		// TODO Auto-generated method stub
+//		return this.email;
+//	}
+//
+//	@JsonIgnore
+//	@Override
+//	public boolean isAccountNonExpired() {
+//		// TODO Auto-generated method stub
+//		return true;
+//	}
+//
+//	@JsonIgnore
+//	@Override
+//	public boolean isAccountNonLocked() {
+//		// TODO Auto-generated method stub
+//		return true;
+//	}
+//
+//	@JsonIgnore
+//	@Override
+//	public boolean isCredentialsNonExpired() {
+//		// TODO Auto-generated method stub
+//		return true;
+//	}
+//
+//	@JsonIgnore
+//	@Override
+//	public boolean isEnabled() {
+//		// TODO Auto-generated method stub
+//		return true;
+//	}
 
 }

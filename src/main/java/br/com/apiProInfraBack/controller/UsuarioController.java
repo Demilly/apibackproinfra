@@ -1,7 +1,5 @@
 package br.com.apiProInfraBack.controller;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +62,7 @@ public class UsuarioController {
 			
 			usuario.setSenha(pe.encode(usuario.getSenha()));
 			usuarioRepository.save(usuario);        
-	        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+	        return new ResponseEntity<Usuario>(HttpStatus.OK);
 			
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
