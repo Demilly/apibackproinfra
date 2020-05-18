@@ -12,16 +12,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.apiProInfraBack.security.AccountCredentials;
+import br.com.apiProInfraBack.security.TokenAuthenticationService;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
-@ApiModel(value = "Cadastrar usuário")
+@ApiModel(value = "Login")
 public class LoginController {
 	
-	@ApiOperation(value = "Insere um usuário")
+	TokenAuthenticationService tokenService;
+		
+	@ApiOperation(value = "Faça o login e seja feliz!")
 	@PostMapping("/login")
 	@ResponseBody
 	public ResponseEntity<AccountCredentials> Post(@Valid @RequestBody AccountCredentials dados)
@@ -36,5 +39,6 @@ public class LoginController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
     }
+	
 
 }

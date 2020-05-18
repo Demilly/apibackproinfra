@@ -31,8 +31,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
 	@Autowired
 	private TokenAuthenticationService jwt;
-
-
+	
 	protected JWTLoginFilter(String url, AuthenticationManager authManager) {
 		super(new AntPathRequestMatcher(url));
 		setAuthenticationManager(authManager);
@@ -45,13 +44,17 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		AccountCredentials credentials = new ObjectMapper().readValue(request.getInputStream(),
 				AccountCredentials.class);
 		
-		response.setStatus(200);
-		response.setContentType("application/json");
-		response.getWriter()
-		.append("{\"msg\":\"login efetuado com sucesso\","
-				+ "\"token\":\""+ jwt.TOKEN_PREFIX + " "+ jwt.pegaToken() + "\","
-				+ "\"email\": \"" + credentials.getUsername().toString().trim() + "\"}");
 		
+		if(!jwt.pegaToken().equals("") || jwt.pegaToken() != null) {
+			
+			response.setStatus(200);
+			response.setContentType("application/json");
+			response.getWriter()
+			.append("{\"msg\":\"login efetuado com sucesso\","
+					+ "\"token\":\""+ jwt.TOKEN_PREFIX + " "+ jwt.pegaToken() + "\","
+					+ "\"email\": \"" + credentials.getUsername().toString().trim() + "\"}");
+			
+		}
 		
 		return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(
 				credentials.getUsername(), credentials.getPassword(), Collections.emptyList())

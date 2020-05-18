@@ -19,7 +19,7 @@ public class Chamado implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long cod_chamado;
 	
-	private String status;
+	private String situacao;
 	
 	private LocalDateTime dataCriacao;
 	
@@ -30,21 +30,25 @@ public class Chamado implements Serializable{
 	private Categoria categoria;
 	
 	private String descricaoChamado;
+	
+	private String latitude;
+	
+	private String longitude;
 
 	public Chamado() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Chamado(Long cod_chamado, String status, LocalDateTime dataCriacao, Usuario usuario, Categoria categoria,
-			String descricaoChamado) {
+	public Chamado(Long cod_chamado, String situacao, LocalDateTime dataCriacao, Usuario usuario, Categoria categoria,
+			String descricaoChamado, String latitude, String longitude) {
 		super();
 		this.cod_chamado = cod_chamado;
-		this.status = status;
+		this.situacao = situacao;
 		this.dataCriacao = dataCriacao;
 		this.usuario = usuario;
 		this.categoria = categoria;
 		this.descricaoChamado = descricaoChamado;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public Long getCod_chamado() {
@@ -53,14 +57,6 @@ public class Chamado implements Serializable{
 
 	public void setCod_chamado(Long cod_chamado) {
 		this.cod_chamado = cod_chamado;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public LocalDateTime getDataCriacao() {
@@ -94,6 +90,31 @@ public class Chamado implements Serializable{
 	public void setDescricaoChamado(String descricaoChamado) {
 		this.descricaoChamado = descricaoChamado;
 	}
+
+	public String getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	
 	
 
 }
